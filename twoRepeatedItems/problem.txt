@@ -1,0 +1,7 @@
+Keep at most two repeated items in a list and remove the other repeated 
+items (more than two). Work on the same list and should not use any 
+additional structures .
+
+For example, 
+Input ==> [1, 1, 1, 1, 2, 3, 4, 5, 5]
+Output ==> [1, 1, 2, 3, 4, 5, 5]

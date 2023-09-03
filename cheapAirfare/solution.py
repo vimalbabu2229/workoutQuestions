@@ -17,25 +17,26 @@ def getCostMatrix(input_data):
                     cost_matrix[i][j] = temp if 0 < temp < cost_matrix[i][j] else cost_matrix[i][j]
     return cost_matrix
 
-'''Below function checks a round trip exist (means there is a trip exist not only form 
-source to destination but also vice versa), and if exist it return the list containing the 
-total price as the first item , then the nodes (source and destination ) in ascending order '''
-def getRoundIfExist(cost_matrix, source, destination):
-    if (x:=cost_matrix[source][destination]) != -1 and (y:=cost_matrix[destination][source]) != -1:
-        total_cost = x + y
-        return [total_cost, min(source, destination), max(source, destination)]
-    return [1000000, -1, -1]
-
-'''Below function calls the getRoundIfExist() to get the result for a single pair of 
-source abd destination and update the lowest_trip variable accordingly '''
+'''Function to get the lowest round if exist , else it will return [1000000, -1, -1]'''
 def getLowestRoundTrip(cost_matrix):
     #initializing the lowest_trip with a data which is said to be return 
     #if there is no round trip exist 
     lowest_trip = [1000000, -1, -1]
-    for i in range (len(cost_matrix)):
-        for j in range(len(cost_matrix)):
-            if i != j and (x:=getRoundIfExist(cost_matrix, i, j))[0] < lowest_trip[0]:
-                lowest_trip = x
+    '''The loops are defined to ensure we are only iterating for minimal number 
+    [
+     *  *   *   *
+     5  *   *   *
+     9  10  *   *
+     13 14  15  *
+     ]
+    '''
+    inner_index = 1
+    for i in range (1, len(cost_matrix)):
+        for j in range(inner_index):
+            if ((x:=cost_matrix[i][j]) != -1 and (y:=cost_matrix[j][i]) != -1):
+                if (total_cost:=x + y) < lowest_trip[0]:
+                    lowest_trip = [total_cost] + sorted([i, j])
+        inner_index += 1
     return lowest_trip
 
 if __name__ == "__main__":
